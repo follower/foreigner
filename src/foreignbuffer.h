@@ -12,7 +12,7 @@ class ForeignBuffer : public Reference {
 private:
 
   uint8_t *data;
-  uint32_t size;
+  int32_t size;
 
 public:
     static void _register_methods();
@@ -25,7 +25,7 @@ public:
     ~ForeignBuffer();
 
     void _init();
-    void _init_buffer(uint32_t size_required);
+    void _init_buffer(int32_t size_required);
 
     void _process(float delta);
 };
