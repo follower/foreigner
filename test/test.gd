@@ -71,6 +71,15 @@ func _init():
     print(result)
     ASSERT(result == 'Foobar')
 
+
+
+    print('##### ForeignBuffer')
+
+    var my_buffer = foreigner.new_buffer(32)
+    print(my_buffer)
+    print(my_buffer.hex_encode_buffer())
+
+
     print('Testing finished')
     quit()
 
