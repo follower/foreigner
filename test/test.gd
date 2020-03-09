@@ -79,6 +79,15 @@ func _init():
     print(my_buffer)
     print(my_buffer.hex_encode_buffer())
 
+    my_buffer.set_data_with_offset(PoolByteArray([0x42, 0x00]), 0)
+
+    print(my_buffer.hex_encode_buffer())
+
+    result = lib.invoke('joinStrings', ['Foo', my_buffer])
+    print(result)
+
+    ASSERT(result == 'FooB')
+
 
     print('Testing finished')
     quit()
