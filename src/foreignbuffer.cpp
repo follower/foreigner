@@ -44,7 +44,7 @@ void ForeignBuffer::_init() {
 void ForeignBuffer::_init_buffer(int32_t size_required) {
     // See comment about initialization above.
     this->size = size_required;
-    data = new uint8_t[this->size]; // TODO: Handle this better?
+    this->data = new uint8_t[this->size]; // TODO: Handle this better?
 }
 
 
