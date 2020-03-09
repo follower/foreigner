@@ -5,6 +5,7 @@ using namespace godot;
 void ForeignBuffer::_register_methods() {
     register_method("_process", &ForeignBuffer::_process);
     register_method("hex_encode_buffer", &ForeignBuffer::hex_encode_buffer);
+    register_method("set_data_with_offset", &ForeignBuffer::set_data_with_offset);
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -56,3 +57,14 @@ void ForeignBuffer::_process(float delta) {
 String ForeignBuffer::hex_encode_buffer() {
     return String::hex_encode_buffer(this->data, this->size);
 };
+
+
+void ForeignBuffer::set_data_with_offset(PoolByteArray pba, int32_t byte_offset) {
+
+    // TODO: Improve implementation & make more robust.
+
+    byte_offset = std::max(0, byte_offset);
+
+    memcpy((uint8_t *)(this->data+byte_offset), pba.read().ptr(), std::min(std::max(0, this->size-byte_offset), pba.size()));
+
+}

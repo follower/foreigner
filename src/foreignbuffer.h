@@ -29,6 +29,8 @@ public:
 
     String hex_encode_buffer();
 
+    void set_data_with_offset(PoolByteArray pba, int32_t byte_offset);
+
     void _process(float delta);
 };
 
