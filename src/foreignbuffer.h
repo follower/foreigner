@@ -27,6 +27,8 @@ public:
     void _init();
     void _init_buffer(int32_t size_required);
 
+    String hex_encode_buffer();
+
     void _process(float delta);
 };
 

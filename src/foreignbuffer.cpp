@@ -4,6 +4,7 @@ using namespace godot;
 
 void ForeignBuffer::_register_methods() {
     register_method("_process", &ForeignBuffer::_process);
+    register_method("hex_encode_buffer", &ForeignBuffer::hex_encode_buffer);
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -50,3 +51,8 @@ void ForeignBuffer::_init_buffer(int32_t size_required) {
 
 void ForeignBuffer::_process(float delta) {
 }
+
+
+String ForeignBuffer::hex_encode_buffer() {
+    return String::hex_encode_buffer(this->data, this->size);
+};
