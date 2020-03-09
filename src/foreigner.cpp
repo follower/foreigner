@@ -5,6 +5,7 @@ using namespace godot;
 void Foreigner::_register_methods() {
     register_method("open", &Foreigner::open);
     register_method("_process", &Foreigner::_process);
+    register_method("new_buffer", &Foreigner::new_buffer);
 }
 
 Foreigner::Foreigner() {
@@ -15,6 +16,17 @@ Foreigner::~Foreigner() {
 }
 
 void Foreigner::_init() {
+}
+
+Ref<ForeignBuffer> Foreigner::new_buffer(uint32_t size_in_bytes) {
+
+    // Mostly copy pasta...
+    ForeignBuffer *the_buffer = ForeignBuffer::_new();
+    the_buffer->_init_buffer(size_in_bytes);
+
+    Ref<ForeignBuffer> ref = Ref<ForeignBuffer>::__internal_constructor(the_buffer);
+    return ref;
+
 }
 
 Ref<ForeignLibrary> Foreigner::open(String path) {

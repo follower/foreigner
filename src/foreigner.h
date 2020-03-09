@@ -8,6 +8,8 @@
 #include "crossplatform.h"
 #include "foreignlibrary.h"
 
+#include "foreignbuffer.h"
+
 namespace godot {
 
 class Foreigner : public Reference {
@@ -26,6 +28,9 @@ public:
     void _init();
 
     Ref<ForeignLibrary> open(String path);
+
+    // TODO: Decide if this would be better elsewhere.
+    Ref<ForeignBuffer> new_buffer(uint32_t size_in_bytes);
 
     void _process(float delta);
 };

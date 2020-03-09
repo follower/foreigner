@@ -25,6 +25,7 @@ public:
     ~ForeignBuffer();
 
     void _init();
+    void _init_buffer(uint32_t size_required);
 
     void _process(float delta);
 };
