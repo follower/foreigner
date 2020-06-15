@@ -12,7 +12,6 @@ typedef void* HANDLE;
 #define IS_WINDOWS
 #endif
 
-#endif
 
 typedef void* SYMBOL;
 
@@ -21,3 +20,4 @@ const char *open_library_error();
 int close_library(HANDLE handle);
 SYMBOL get_symbol(HANDLE handle, char *symbol);
 
+#endif
