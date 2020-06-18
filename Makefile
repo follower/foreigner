@@ -118,7 +118,8 @@ endif
 
 FOREIGNER_LIB := foreigner.$(LIB_SUFFIX)
 
-FFI_INCLUDES = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --cflags --libs libffi)
+FFI_INCLUDES = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --cflags libffi)
+FFI_LIB_LINK = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --libs libffi)
 
 INCLUDES= \
 		  -I$(GODOTCPP_PATH)/godot_headers \
@@ -128,7 +129,7 @@ INCLUDES= \
 		  -L$(GODOTCPP_PATH)/bin \
 		  $(FFI_INCLUDES)
 
-LIBS = -lgodot-cpp.$(PLATFORM).debug.64 $(EXTRA_LIBS)
+LIBS = -lgodot-cpp.$(PLATFORM).debug.64 $(FFI_LIB_LINK) $(EXTRA_LIBS)
 FLAGS = -ggdb -fPIC $(EXTRA_FLAGS) -Wall
 
 all: $(FOREIGNER_LIB)
