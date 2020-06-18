@@ -76,7 +76,22 @@ ifeq ($(UNAME),Darwin)
 	PLATFORM := osx
 	CXX := clang++
 	LIB_SUFFIX := dylib
-	EXTRA_FLAGS := -Og
+        #
+        # The `-no_compact_unwind` is to avoid an `ld` warning on older
+        # OS versions.
+        #
+        # The warning message is:
+        #
+        #  `ld: warning: could not create compact unwind for _ffi_call_unix64: does not use RBP or RSP based frame`
+        #
+        # For more details see:
+        #
+        #  * <https://github.com/libffi/libffi/issues/153>
+        #  * <https://github.com/rust-lang/rust/pull/10013>
+        #  * <https://github.com/libffi/libffi/issues/418>
+        #  * <https://github.com/libffi/libffi/pull/440>
+        #
+	EXTRA_FLAGS := -Og -Wl,-no_compact_unwind
 	EXTRA_LIBS :=
 else ifeq ($(UNAME),Linux)
 	ifeq ($(CROSS_COMPILE_PLATFORM),)
