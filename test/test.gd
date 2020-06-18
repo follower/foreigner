@@ -14,8 +14,12 @@ func _init():
 
     var test_lib_filename: String = './testlib.so'
 
-    if OS.get_name() == "Windows":
-        test_lib_filename = './testlib.dll'
+    match OS.get_name():
+        "Windows":
+            test_lib_filename = './testlib.dll'
+
+        "OSX":
+            test_lib_filename = './testlib.dylib'
 
     var lib = foreigner.open(test_lib_filename)
 
