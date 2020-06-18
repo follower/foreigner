@@ -98,7 +98,7 @@ else ifeq ($(UNAME),Linux)
 		PLATFORM := linux
 		CXX := g++
 		LIB_SUFFIX := so
-		EXTRA_FLAGS :=
+		EXTRA_FLAGS := -Wl,-static
 		EXTRA_LIBS := -static-libstdc++ -static-libgcc
 	else ifeq ($(CROSS_COMPILE_PLATFORM),win64)
 		PLATFORM := windows
@@ -106,7 +106,7 @@ else ifeq ($(UNAME),Linux)
 		CXX := x86_64-w64-mingw32-g++
 		LIB_SUFFIX := dll
 #		EXTRA_FLAGS := -std=c++11 -DFFI_BUILDING
-		EXTRA_FLAGS := -std=c++11
+		EXTRA_FLAGS := -std=c++11 -Wl,-static
 		EXTRA_LIBS := -static-libstdc++ -static-libgcc
 		PKG_CONFIG_ENV_VARS := PKG_CONFIG_LIBDIR=/usr/x86_64-w64-mingw32/lib/pkgconfig PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
 	else
@@ -129,7 +129,7 @@ INCLUDES= \
 		  $(FFI_INCLUDES)
 
 LIBS = -lgodot-cpp.$(PLATFORM).debug.64 $(EXTRA_LIBS)
-FLAGS = -ggdb -fPIC $(EXTRA_FLAGS) -Wl,-static -Wall
+FLAGS = -ggdb -fPIC $(EXTRA_FLAGS) -Wall
 
 all: $(FOREIGNER_LIB)
 
