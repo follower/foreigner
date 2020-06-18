@@ -93,6 +93,19 @@ ifeq ($(UNAME),Darwin)
         #
 	EXTRA_FLAGS := -Og -Wl,-no_compact_unwind
 	EXTRA_LIBS :=
+
+        #
+        # Apparently on Mac the only way to prevent the dynamically linked
+        # version of the libffi binary from being included (if both versions
+        # are in the same directory) is to force the static version to be
+        # linked explicitly.
+        #
+        # And...it turns out this monstrosity may be the best way to do that? :o
+        #
+        # (This overrides the common `FFI_LIB_LINK` later in the file which
+        # works on Mac but doesn't result in a statically linked `libffi`.
+        #
+	FFI_LIB_LINK = $(subst -L,-force_load ,$(shell $(PKG_CONFIG_ENV_VARS) pkg-config --libs-only-L libffi))/libffi.a
 else ifeq ($(UNAME),Linux)
 	ifeq ($(CROSS_COMPILE_PLATFORM),)
 		PLATFORM := linux
@@ -119,7 +132,8 @@ endif
 FOREIGNER_LIB := foreigner.$(LIB_SUFFIX)
 
 FFI_INCLUDES = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --cflags libffi)
-FFI_LIB_LINK = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --libs libffi)
+# Note: Mac builds override this `FFI_LIB_LINK` value.
+FFI_LIB_LINK ?= $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --libs libffi)
 
 INCLUDES= \
 		  -I$(GODOTCPP_PATH)/godot_headers \
