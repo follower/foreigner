@@ -95,6 +95,20 @@ ifeq ($(UNAME),Darwin)
 	EXTRA_LIBS :=
 
         #
+        # Previously, I was (for no particular reason AFAIK) linking
+        # with a `libffi` that was installed via `pkgsrc`, now
+        # changing to the more common Homebrew installed version
+        # to hopefully default to the more common case.
+        #
+        # An alternative `PKG_CONFIG_LIBDIR` can still be supplied
+        # as an environment variable or the following line can
+        # be uncommented to return to using the `pkgsrc` installed lib.
+        #
+        #PKG_CONFIG_LIBDIR := /opt/pkg/lib/pkgconfig
+	PKG_CONFIG_LIBDIR ?= /usr/local/opt/libffi/lib/pkgconfig
+	PKG_CONFIG_ENV_VARS := PKG_CONFIG_LIBDIR=$(PKG_CONFIG_LIBDIR)
+
+        #
         # Apparently on Mac the only way to prevent the dynamically linked
         # version of the libffi binary from being included (if both versions
         # are in the same directory) is to force the static version to be
