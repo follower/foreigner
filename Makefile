@@ -1,4 +1,16 @@
 #
+### Makefile for Foreigner
+#
+## HOWTO: Build on Mac
+#
+#  * Install `libffi` (defaults to use Homebrew installed version).
+#
+#  * Build the `godot-cpp` bindings to produce `libgodot-cpp.osx.debug.64.a`:
+#
+#  * Build Foreigner, testlib and run test with:
+#
+#      make test GODOTCPP_PATH=/<path>/godot-cpp GODOT_BINARY=/<path>/Godot.app/Contents/MacOS/Godot
+#
 #
 ## HOWTO: Cross-compiling for Win64 on Linux (Ubuntu/Elementary)
 #
