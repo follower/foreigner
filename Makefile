@@ -74,7 +74,7 @@ CROSS_COMPILE_PLATFORM ?=
 #      The dynamic/static link status can be verified via
 #      the output of:
 #
-#         ldd foreinger.so
+#         ldd foreigner.so
 #
 
 # Uncomment this for additional linker log output
