@@ -5,7 +5,7 @@
 std::string error_number_as_string;
 #endif
 
-HANDLE open_library(char *path) {
+HANDLE open_library(const char *path) {
 #ifdef IS_UNIX
     return dlopen(path, RTLD_LAZY);  // TODO: Is RTLD_LAZY the best?
 #else
@@ -31,7 +31,7 @@ int close_library(HANDLE handle) {
 #endif
 }
 
-SYMBOL get_symbol(HANDLE handle, char *symbol) {
+SYMBOL get_symbol(HANDLE handle, const char *symbol) {
 #ifdef IS_UNIX
     return dlsym(handle, symbol);
 #else
