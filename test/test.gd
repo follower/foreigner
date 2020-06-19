@@ -12,7 +12,17 @@ func _init():
     ASSERT(foreigner)
     prints('Foreigner:', foreigner)
 
-    var lib = foreigner.open('./testlib.so')
+    var test_lib_filename: String = './testlib.so'
+
+    match OS.get_name():
+        "Windows":
+            test_lib_filename = './testlib.dll'
+
+        "OSX":
+            test_lib_filename = './testlib.dylib'
+
+    var lib = foreigner.open(test_lib_filename)
+
     ASSERT(lib)
     print('Library:', lib)
 
