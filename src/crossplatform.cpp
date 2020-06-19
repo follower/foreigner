@@ -20,7 +20,7 @@ const char *open_library_error() {
     // TODO: Use standard approach to convert GetLastError() to message.
     error_number_as_string = std::to_string(GetLastError());
     return error_number_as_string.c_str();
- #endif
+#endif
 }
 
 int close_library(HANDLE handle) {
