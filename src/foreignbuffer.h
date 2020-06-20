@@ -11,8 +11,8 @@ class ForeignBuffer : public Reference {
 
 private:
 
-  uint8_t *data;
-  int32_t size;
+    uint8_t *data;
+    int32_t size;
 
 public:
     static void _register_methods();
