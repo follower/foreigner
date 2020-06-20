@@ -93,10 +93,10 @@ func _init():
 
     print(my_buffer.hex_encode_buffer())
 
-    #result = lib.invoke('joinStrings', ['Foo', my_buffer])
-    #print(result)
-    #
-    #ASSERT(result == 'FooB')
+    result = lib.invoke('joinStrings', ['Foo', my_buffer])
+    print(result)
+
+    ASSERT(result == 'FooB')
 
 
     print('Testing finished')
