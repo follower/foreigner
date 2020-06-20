@@ -1,4 +1,5 @@
 #include "foreignlibrary.h"
+#include "foreignbuffer.h"
 
 using namespace godot;
 
@@ -131,6 +132,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
     // TODO: Suport more arg types
     String str;
     char* pStr;
+    ForeignBuffer *the_buffer;
     for (int i = 0; i < args.size(); i++) {
         switch(args[i].get_type()) {
             case Variant::Type::NIL:
@@ -153,6 +155,68 @@ Variant ForeignLibrary::invoke(String method, Array args) {
                 pStr[str.length()] = 0;
                 arg_values[i] = new char*(pStr);
                 break;
+            case Variant::Type::OBJECT:
+	      {
+                Variant v = args[i]; // Necessary intermediate step for the following to work.
+
+		// My understanding is that there's a simpler approach to use
+		// but when I last tried it didn't work for...reasons?
+		//
+		// One of these, perhaps:
+		//
+		//   ForeignBuffer *the_buffer = Object::cast_to<ForeignBuffer>(args[i].operator Object*());
+		//   ForeignBuffer *the_buffer = as<ForeignBuffer>(args[i].operator godot_object *());
+		//   ForeignBuffer *the_buffer = as<ForeignBuffer>(v.operator Object*());
+
+		// So, while inelegant, the following approach did at least work...
+		//
+		// static_cast<T*>(T::___get_from_variant(*this))
+		//
+		// via <https://github.com/GodotNativeTools/godot-cpp/pull/270/files>
+		/* ForeignBuffer * */ the_buffer = static_cast<ForeignBuffer*>(ForeignBuffer::___get_from_variant(v));
+
+		// TODO: Don't continue if argument is some other Object type.
+
+		// We pass along a pointer to the internal buffer here so
+		// that any modifications to the buffer by the invoked
+		// function are reflected by what is seen within Godot.
+		//
+		// Note: In Godot 3.x we can't use `PoolByteArray` or
+		//       similar because they are copy-on-write.
+		//       This is to be changed in Godot 4.0 but we're
+		//       not currently living in the future.
+		//
+		// Note: It turns out that the...ah..."unintuitively"-named[0]
+		//       `StreamPeerBuffer` *may* have been an option
+		//       if we created it internally & restricted
+		//       access to only the `.put*()` & `.get*()`
+		//       methods but that wasn't clear at the time.
+		//
+		//       My plan is to revisit `StreamPeerBuffer`
+		//       in relation to (re-)implementing `struct`
+		//       support because it has built-in data type/size
+		//       handling.
+		//
+		//       [0] It's unintuitive because it has *no* Peer :)
+		//           and it's *not* a Stream. It's just a
+		//           Buffer...with some useful helper methods.
+		//
+		//           The naming is because it's based on a
+		//           class that *is* used by the family of
+		//           classes that *do* have Peer(s) & *are*
+		//           Streams.
+		//
+		//           And even knowing this, it's still not
+		//           instantly obvious how to avoid Copy-on-Write
+		//           aspect--which requires being the creator
+		//           of the instance, restricting access
+		//           to methods *and* (probably) requires
+		//           temporarily duplicating the underlying
+		//           buffer when passing it via FFI anyway.
+		//
+                arg_values[i] = &the_buffer->data;
+	      }
+                break;
             default:
                 // Variant::___get_type_name(args[i].get_type())
                 Godot::print_error(
@@ -174,6 +238,12 @@ Variant ForeignLibrary::invoke(String method, Array args) {
         // TODO: Fix this
         if (signature->argtypes[i] == "string") {
             delete (char*)(*(char**)arg_values[i]);
+        } else if ((signature->argtypes[i] == "pointer") && (args[i].get_type() == Variant::Type::OBJECT) ) {
+
+	  // We didn't duplicate anything in this case, so don't try to delete it.
+
+	  // (?) TODO: Revert to handling properly.
+
         } else {
             delete (uint64_t*) arg_values[i];
         }

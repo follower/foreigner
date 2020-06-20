@@ -11,6 +11,8 @@ class ForeignBuffer : public Reference {
 
 private:
 
+    friend class ForeignLibrary;
+
     uint8_t *data;
     int32_t size;
 
