@@ -237,7 +237,17 @@ Variant ForeignLibrary::invoke(String method, Array args) {
     for (int i = 0; i < signature->cif->nargs; i++) {
         // TODO: Fix this
         if (signature->argtypes[i] == "string") {
+
+          if (args[i].get_type() == Variant::Type::OBJECT) {
+
+            // We didn't duplicate anything in this case, so don't try to delete it.
+
+          } else {
+
             delete (char*)(*(char**)arg_values[i]);
+
+          }
+
         } else if ((signature->argtypes[i] == "pointer") && (args[i].get_type() == Variant::Type::OBJECT) ) {
 
 	  // We didn't duplicate anything in this case, so don't try to delete it.
