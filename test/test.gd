@@ -98,6 +98,9 @@ func _init():
 
     ASSERT(result == 'FooB')
 
+    # TODO: Add an assert to verify my_buffer hasn't been modified/freed?
+    print("my_buffer: ", my_buffer.hex_encode_buffer())
+
 
     print('Testing finished')
     quit()
