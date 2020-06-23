@@ -139,6 +139,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
                 arg_values[i] = 0;
                 break;
             case Variant::Type::INT:
+                //Godot::print(">> arg in is treating as int <<");
                 arg_values[i] = new uint64_t(args[i]);
                 break;
             case Variant::Type::REAL:
@@ -149,6 +150,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
                 break;
             case Variant::Type::STRING:
                 // There must be a better way.
+                //Godot::print(">> arg in is treating as string <<");
                 str = args[i];
                 pStr = new char[str.length() + 1];
                 memcpy(pStr, str.alloc_c_string(), str.length());
@@ -157,6 +159,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
                 break;
             case Variant::Type::OBJECT:
 	      {
+                //Godot::print(">> arg in is treating as buffer <<");
                 Variant v = args[i]; // Necessary intermediate step for the following to work.
 
 		// My understanding is that there's a simpler approach to use
@@ -240,15 +243,21 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 
           if (args[i].get_type() == Variant::Type::OBJECT) {
 
+            //Godot::print(">> delete is treating as string but obj<<");
+
             // We didn't duplicate anything in this case, so don't try to delete it.
 
           } else if (args[i].get_type() == Variant::Type::INT) {
+
+            //Godot::print(">> delete is treating as string but int (pointer)<<");
 
             // We only duplicated the int/pointer value in this case, so
             // don't try to delete the buffer to which it pointed.
             delete (uint64_t*) arg_values[i];
 
           } else {
+
+            //Godot::print(">> delete is treating as string and not obj<<");
 
             delete (char*)(*(char**)arg_values[i]);
             delete (char*) arg_values[i]; // TODO: Determine if this is unnecessary?
@@ -257,11 +266,14 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 
         } else if ((signature->argtypes[i] == "pointer") && (args[i].get_type() == Variant::Type::OBJECT) ) {
 
+          //Godot::print(">> delete is treating as buffer <<");
+
           // We didn't duplicate anything in this case, so don't try to delete it.
 
           // (?) TODO: Revert to handling properly.
 
         } else {
+            //Godot::print(">> delete is treating as something else <<");
             delete (uint64_t*) arg_values[i];
         }
     }
