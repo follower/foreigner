@@ -251,6 +251,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
           } else {
 
             delete (char*)(*(char**)arg_values[i]);
+            delete (char*) arg_values[i]; // TODO: Determine if this is unnecessary?
 
           }
 
