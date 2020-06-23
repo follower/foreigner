@@ -256,9 +256,9 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 
         } else if ((signature->argtypes[i] == "pointer") && (args[i].get_type() == Variant::Type::OBJECT) ) {
 
-	  // We didn't duplicate anything in this case, so don't try to delete it.
+          // We didn't duplicate anything in this case, so don't try to delete it.
 
-	  // (?) TODO: Revert to handling properly.
+          // (?) TODO: Revert to handling properly.
 
         } else {
             delete (uint64_t*) arg_values[i];
