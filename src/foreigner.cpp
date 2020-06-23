@@ -29,6 +29,7 @@ Ref<ForeignBuffer> Foreigner::new_buffer(uint32_t size_in_bytes) {
 
 }
 
+
 Ref<ForeignLibrary> Foreigner::open(String path) {
     //if (this->handle) {
     //    // Another shared library is already open, close it
