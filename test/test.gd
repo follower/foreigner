@@ -109,6 +109,12 @@ func _init():
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
 
+    result = lib.invoke('retrieveInt', [my_buffer.ptr()])
+    ASSERT(result == 0x42)
+
+    print("my_buffer: ", my_buffer.hex_encode_buffer())
+
+
     print('Testing finished')
     quit()
 
