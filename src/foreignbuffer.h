@@ -33,6 +33,8 @@ public:
 
     void set_data_with_offset(PoolByteArray pba, int32_t byte_offset);
 
+    uint64_t ptr();
+
     void _process(float delta);
 };
 

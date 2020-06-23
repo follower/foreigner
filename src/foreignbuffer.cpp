@@ -6,6 +6,7 @@ void ForeignBuffer::_register_methods() {
     register_method("_process", &ForeignBuffer::_process);
     register_method("hex_encode_buffer", &ForeignBuffer::hex_encode_buffer);
     register_method("set_data_with_offset", &ForeignBuffer::set_data_with_offset);
+    register_method("ptr", &ForeignBuffer::ptr);
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -67,4 +68,9 @@ void ForeignBuffer::set_data_with_offset(PoolByteArray pba, int32_t byte_offset)
 
     memcpy((uint8_t *)(this->data+byte_offset), pba.read().ptr(), std::min(std::max(0, this->size-byte_offset), pba.size()));
 
+}
+
+
+uint64_t ForeignBuffer::ptr() { // TODO: Handle in a different way?
+  return (uint64_t) this->data;
 }

@@ -242,6 +242,12 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 
             // We didn't duplicate anything in this case, so don't try to delete it.
 
+          } else if (args[i].get_type() == Variant::Type::INT) {
+
+            // We only duplicated the int/pointer value in this case, so
+            // don't try to delete the buffer to which it pointed.
+            delete (uint64_t*) arg_values[i];
+
           } else {
 
             delete (char*)(*(char**)arg_values[i]);
