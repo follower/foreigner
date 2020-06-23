@@ -102,6 +102,13 @@ func _init():
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
 
+    result = lib.invoke('joinStrings', ['Foo', my_buffer.ptr()])
+    print(result)
+
+    ASSERT(result == 'FooB')
+    print("my_buffer: ", my_buffer.hex_encode_buffer())
+
+
     print('Testing finished')
     quit()
 
