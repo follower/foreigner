@@ -49,7 +49,6 @@ func _init():
     result = lib.invoke('sqr', [9])
     print(result)
     ASSERT(result == 81)
-    lib.define('sqr', 'sint32', ['sint32'])
     result = lib.invoke('sqr', [16])
     print(result)
     ASSERT(result == 256)
