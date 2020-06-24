@@ -49,7 +49,11 @@ public:
     //void _notification(int64_t what);
 
     void setHandle(void *handle);
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
     void define(String method, String retType, PoolStringArray argTypes);
+#else
+    void define(String method, String retType, Array argTypes);
+#endif
     Variant invoke(String method, Array args);
 
     void _process(float delta);

@@ -37,6 +37,14 @@ func _init():
     ASSERT(result == 42)
 
     print('* Testing int sqr(int)')
+    # Previously, the following line resulted in the error:
+    #
+    #   "ERROR: cleanup: There are still MemoryPool allocs in use at exit! At: core/pool_vector.cpp:69."
+    #
+    # This was due to the `['sint32']` being turned into a `PoolStringArray`
+    # which leaked due to errors in `godot-cpp`. A workaround
+    # is to changed the `define()` method to receive an Array
+    # instead & add some extra handling code.
     lib.define('sqr', 'sint32', ['sint32'])
     result = lib.invoke('sqr', [9])
     print(result)

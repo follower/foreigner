@@ -70,7 +70,11 @@ void ForeignLibrary::setHandle(void *handle) {
     this->handle = handle;
 }
 
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
 void ForeignLibrary::define(String method, String retType, PoolStringArray argTypes) {
+#else
+void ForeignLibrary::define(String method, String retType, Array argTypes) {
+#endif
     // TODO: Memory leaks
     ffi_cif *cif = new ffi_cif();
     ffi_type **arg_types = new ffi_type*[argTypes.size()];
@@ -82,8 +86,14 @@ void ForeignLibrary::define(String method, String retType, PoolStringArray argTy
 
     for (int i = 0; i < argTypes.size(); i++) {
         arg_types[i] = this->get_ffi_type(argTypes[i]);
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
         signature->argtypes.push_back(std::string(argTypes[i].alloc_c_string()));
         argString += (argString.length() ? ", " : "") + argTypes[i];
+#else
+        String the_str = argTypes[i];
+        signature->argtypes.push_back(std::string(the_str.alloc_c_string()));
+        argString += (argString.length() ? ", " : "") + the_str;
+#endif
     }
     signature->restype = std::string(retType.alloc_c_string());
     ffi_prep_cif(cif, FFI_DEFAULT_ABI, argTypes.size(), this->get_ffi_type(retType), arg_types);
