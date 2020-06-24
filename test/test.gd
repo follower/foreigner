@@ -96,6 +96,9 @@ func _init():
     print(my_buffer)
     print(my_buffer.hex_encode_buffer())
 
+
+    # Note: The `PoolByteArray()` here will leak with `godot-cpp` 3.1.
+    #       (If `define()` isn't re-defined to take Array() instead.)
     my_buffer.set_data_with_offset(PoolByteArray([0x42, 0x00]), 0)
 
     print(my_buffer.hex_encode_buffer())
