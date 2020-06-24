@@ -11,6 +11,7 @@ void Foreigner::_register_methods() {
 Foreigner::Foreigner() {
 }
 
+
 Foreigner::~Foreigner() {
     Godot::print("Destroying Foreigner");
 }
