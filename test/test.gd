@@ -122,6 +122,31 @@ func _init():
     result = lib.invoke('retrieveInt', [my_buffer.ptr()])
     ASSERT(result == 0x42)
 
+
+    var spb: StreamPeerBuffer = StreamPeerBuffer.new()
+    spb.seek(0)
+    spb.put_u64(0x0000000012345678)
+
+    # Note: I would use ClassDB to check for the method
+    #       but apparently `PoolByteArray` isn't in it.
+    #       And, PBA doesn't have `call()`, so there's
+    #       no way to make this optional on 3.1 AFAICT.
+#    if Engine.get_version_info().hex >= 0x030200:
+#      prints("spb: ", spb.data_array.hex_encode())
+
+    var my_buffer2 = foreigner.new_buffer(32)
+    my_buffer2.set_data_with_offset(spb.data_array, 0)
+    prints("my_buffer2:", my_buffer2.hex_encode_buffer())
+
+    result = lib.invoke('retrieveInt', [my_buffer2])
+    ASSERT(result == 0x12345678)
+    print("my_buffer2 retrieveint: 0x%08x" % result)
+
+    result = lib.invoke('retrieveInt', [my_buffer2.ptr()])
+    ASSERT(result == 0x12345678)
+    print("my_buffer2.ptr retrieveint: 0x%08x" % result)
+
+    # One last manual check...
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
 
