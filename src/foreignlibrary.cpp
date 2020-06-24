@@ -188,6 +188,14 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 		// via <https://github.com/GodotNativeTools/godot-cpp/pull/270/files>
 		/* ForeignBuffer * */ the_buffer = static_cast<ForeignBuffer*>(ForeignBuffer::___get_from_variant(v));
 
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+#else
+                // This removes the incorrect extra reference added
+                // with `godot-cpp` 3.1 when buffer supplied as an argument
+                // (a la `PoolByteArray` issue) & prevents leak.
+                the_buffer->unreference();
+#endif
+
 		// TODO: Don't continue if argument is some other Object type.
 
 		// We pass along a pointer to the internal buffer here so
