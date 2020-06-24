@@ -93,6 +93,7 @@ func _init():
     print('##### ForeignBuffer')
 
     var my_buffer = foreigner.new_buffer(32)
+    my_buffer.unreference() ## For reasons I don't understand this will prevent memory leak *and* not crash on `godot-cpp` 3.1.
     print(my_buffer)
     print(my_buffer.hex_encode_buffer())
 
