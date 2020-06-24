@@ -31,7 +31,11 @@ public:
 
     String hex_encode_buffer();
 
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
     void set_data_with_offset(PoolByteArray pba, int32_t byte_offset);
+#else
+    void set_data_with_offset(Array array__pba, int32_t byte_offset);
+#endif
 
     uint64_t ptr();
 

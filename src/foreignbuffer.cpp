@@ -60,7 +60,13 @@ String ForeignBuffer::hex_encode_buffer() {
 };
 
 
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
 void ForeignBuffer::set_data_with_offset(PoolByteArray pba, int32_t byte_offset) {
+#else
+void ForeignBuffer::set_data_with_offset(Array array_pba, int32_t byte_offset) {
+
+    PoolByteArray pba = godot::PoolByteArray(array_pba);
+#endif
 
     // TODO: Improve implementation & make more robust.
 
