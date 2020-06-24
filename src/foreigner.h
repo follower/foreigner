@@ -10,6 +10,8 @@
 
 #include "foreignbuffer.h"
 
+#define TARGET_GODOT_CPP_3_2_LATEST // 9eceb16f0553884094d0f659461649be5d333866
+
 namespace godot {
 
 class Foreigner : public Reference {

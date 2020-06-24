@@ -24,7 +24,11 @@ Ref<ForeignBuffer> Foreigner::new_buffer(uint32_t size_in_bytes) {
     ForeignBuffer *the_buffer = ForeignBuffer::_new();
     the_buffer->_init_buffer(size_in_bytes);
 
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+    Ref<ForeignBuffer> ref = Ref<ForeignBuffer>(the_buffer);
+#else
     Ref<ForeignBuffer> ref = Ref<ForeignBuffer>::__internal_constructor(the_buffer);
+#endif
     return ref;
 
 }
@@ -57,7 +61,11 @@ Ref<ForeignLibrary> Foreigner::open(String path) {
     }
 
     ForeignLibrary *library = ForeignLibrary::_new();
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+    Ref<ForeignLibrary> ref = Ref<ForeignLibrary>(library);
+#else
     Ref<ForeignLibrary> ref = Ref<ForeignLibrary>::__internal_constructor(library);
+#endif
     library->setHandle(handle);
     return ref;
 }
