@@ -11,6 +11,7 @@
 #include <Variant.hpp>
 #include <String.hpp>
 
+#include "foreigner_cfg.h"
 #include "crossplatform.h"
 
 namespace godot {

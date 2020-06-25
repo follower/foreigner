@@ -4,6 +4,8 @@
 #include <Godot.hpp>
 #include <Reference.hpp>
 
+#include "foreigner_cfg.h"
+
 namespace godot {
 
 class ForeignBuffer : public Reference {
