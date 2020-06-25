@@ -142,7 +142,10 @@ Variant ForeignLibrary::invoke(String method, Array args) {
     // TODO: Suport more arg types
     String str;
     char* pStr;
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+#else
     ForeignBuffer *the_buffer;
+#endif
     for (int i = 0; i < args.size(); i++) {
         switch(args[i].get_type()) {
             case Variant::Type::NIL:
@@ -170,6 +173,9 @@ Variant ForeignLibrary::invoke(String method, Array args) {
             case Variant::Type::OBJECT:
 	      {
                 //Godot::print(">> arg in is treating as buffer <<");
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+                Ref<ForeignBuffer> the_buffer_ref = args[i];
+#else
                 Variant v = args[i]; // Necessary intermediate step for the following to work.
 
 		// My understanding is that there's a simpler approach to use
@@ -187,6 +193,7 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 		//
 		// via <https://github.com/GodotNativeTools/godot-cpp/pull/270/files>
 		/* ForeignBuffer * */ the_buffer = static_cast<ForeignBuffer*>(ForeignBuffer::___get_from_variant(v));
+#endif
 
 #if defined(TARGET_GODOT_CPP_3_2_LATEST)
 #else
@@ -235,7 +242,11 @@ Variant ForeignLibrary::invoke(String method, Array args) {
 		//           temporarily duplicating the underlying
 		//           buffer when passing it via FFI anyway.
 		//
+#if defined(TARGET_GODOT_CPP_3_2_LATEST)
+                arg_values[i] = &the_buffer_ref->data;
+#else
                 arg_values[i] = &the_buffer->data;
+#endif
 	      }
                 break;
             default:
