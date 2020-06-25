@@ -120,7 +120,7 @@ func _init():
 
 
     result = lib.invoke('retrieveInt', [my_buffer.ptr()])
-    ASSERT(result == 0x42)
+    ASSERT((result & 0xffff) == 0x42)
 
 
     var spb: StreamPeerBuffer = StreamPeerBuffer.new()
