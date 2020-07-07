@@ -62,6 +62,7 @@ public:
     */
 
     /*static*/ uint64_t offset(uint64_t original_ptr, int32_t byte_offset);
+    /*static*/ uint64_t deref(uint64_t original_ptr);
 
     void _process(float delta);
 };
