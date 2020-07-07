@@ -146,6 +146,38 @@ func _init():
     ASSERT(result == 0x12345678)
     print("my_buffer2.ptr retrieveint: 0x%08x" % result)
 
+
+    ## Test raw pointer manipulation methods.
+
+    var spb3: StreamPeerBuffer = StreamPeerBuffer.new()
+    spb3.seek(0)
+    spb3.put_data("OneTwo".to_ascii())
+    spb3.put_data([0x00]) # Note: Required because `to_ascii()` doesn't include terminating null.
+
+    #prints("spb3: ", spb3.data_array.hex_encode()) # Commented out for 3.1 compatibility.
+
+
+    var my_buffer3 = foreigner.new_buffer(spb3.get_size())
+    my_buffer3.set_data_with_offset(spb3.data_array, 0)
+    #prints("my_buffer3:", my_buffer3.hex_encode_buffer()) # Commented out for 3.1 compatibility.
+
+    result = lib.invoke('joinStrings', ['Foo', my_buffer3])
+    print(result)
+
+    ASSERT(result == 'FooOneTwo')
+
+
+    # A helper instance due to lack of static class methods.
+    # See note in `foreignbuffer.h` for details.
+    var _op = foreigner.new_buffer(8)
+
+
+    result = lib.invoke('joinStrings', ['Foo', _op.offset( my_buffer3.ptr(), "One".length() )])
+    print(result)
+
+    ASSERT(result == 'FooTwo')
+
+
     # One last manual check...
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
