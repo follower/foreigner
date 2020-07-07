@@ -41,6 +41,27 @@ public:
 
     uint64_t ptr();
 
+
+    /*
+
+       Note: The following methods accept any pointer--they're not
+             specific to this buffer.
+
+       For reasons that I don't remember GDNative/`godot-cpp` doesn't
+       support static class methods currently.
+
+       So, while these bare pointer manipulating methods *shouldn't* need
+       an instance of this class in order to be used, they currently
+       do need such an instance.
+
+       The current idiom I'm using is along these lines:
+
+           var _op = foreigner.new_buffer(32); // Arbitrary buffer size. (Reuse `_op` whereever pointer manipulation is required.)
+           var some_ptr = _op.deref(_op.deref(_op.offset(my_struct.ptr(), 8))) // Deref a pointer stored in a buffer instance.
+
+    */
+
+
     void _process(float delta);
 };
 

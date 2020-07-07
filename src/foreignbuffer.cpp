@@ -7,6 +7,9 @@ void ForeignBuffer::_register_methods() {
     register_method("hex_encode_buffer", &ForeignBuffer::hex_encode_buffer);
     register_method("set_data_with_offset", &ForeignBuffer::set_data_with_offset);
     register_method("ptr", &ForeignBuffer::ptr);
+
+    // Note: The following methods accept any pointer--they're not specific
+    //       to this buffer. (See note in `foreignbuffer.h` for details.)
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -123,3 +126,7 @@ uint64_t ForeignBuffer::ptr() { // TODO: Handle in a different way?
 //       eventually make this more generic and include it with
 //       Foreigner.
 //
+
+
+// Note: The following methods accept any pointer--they're not specific
+//       to this buffer. (See note in `foreignbuffer.h` for details.)
