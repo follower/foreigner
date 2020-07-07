@@ -191,6 +191,13 @@ func _init():
     ASSERT(my_buffer.ptr() == _op.deref(my_buffer4.ptr()))
 
 
+    _op.memcpy(my_buffer3.ptr(), "|_|".to_ascii())
+    result = lib.invoke('joinStrings', ['Foo', my_buffer3])
+    print(result)
+
+    ASSERT(result == 'Foo|_|Two')
+
+
     # One last manual check...
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
