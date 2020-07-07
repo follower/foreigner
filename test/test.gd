@@ -198,6 +198,11 @@ func _init():
     ASSERT(result == 'Foo|_|Two')
 
 
+    result = _op.string_at(_op.offset( my_buffer3.ptr(), "|_|".length() ))
+    print(result)
+    ASSERT(result == 'Two')
+
+
     # One last manual check...
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
