@@ -72,7 +72,7 @@ void ForeignBuffer::set_data_with_offset(Array array_pba, int32_t byte_offset) {
 
     byte_offset = std::max(0, byte_offset);
 
-    memcpy((uint8_t *)(this->data+byte_offset), pba.read().ptr(), std::min(std::max(0, this->size-byte_offset), pba.size()));
+    std::memcpy((uint8_t *)(this->data+byte_offset), pba.read().ptr(), std::min(std::max(0, this->size-byte_offset), pba.size()));
 
 }
 
