@@ -10,6 +10,7 @@ void ForeignBuffer::_register_methods() {
 
     // Note: The following methods accept any pointer--they're not specific
     //       to this buffer. (See note in `foreignbuffer.h` for details.)
+    register_method("offset", &ForeignBuffer::offset);
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -130,3 +131,7 @@ uint64_t ForeignBuffer::ptr() { // TODO: Handle in a different way?
 
 // Note: The following methods accept any pointer--they're not specific
 //       to this buffer. (See note in `foreignbuffer.h` for details.)
+
+uint64_t ForeignBuffer::offset(uint64_t original_ptr, int32_t byte_offset) {
+    return original_ptr+byte_offset;
+}
