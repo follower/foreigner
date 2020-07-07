@@ -13,6 +13,7 @@ void ForeignBuffer::_register_methods() {
     register_method("offset", &ForeignBuffer::offset);
     register_method("deref", &ForeignBuffer::deref);
     register_method("memcpy", &ForeignBuffer::memcpy);
+    register_method("string_at", &ForeignBuffer::string_at); // Was previously (in unreleased version) named `buffer_ptr_to_string()`.
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -150,3 +151,13 @@ void ForeignBuffer::memcpy(uint64_t original_ptr, PoolByteArray pba) {
     //       is valid so crashes/buffer overflows may occur.
     std::memcpy((uint8_t *) original_ptr, pba.read().ptr(), pba.size() /* *cough* */);
 }
+
+
+String ForeignBuffer::string_at(uint64_t original_ptr, int32_t buffer_size) {
+    // TODO: Reimplement with StreamPeerBuffer?
+    String result = String();
+    for (int32_t offset = 0; offset<buffer_size; offset++) { // TODO: Support null termination without explicit size?
+        result += String::chr(*((uint8_t *)(original_ptr+offset)));
+    }
+    return result;
+ }

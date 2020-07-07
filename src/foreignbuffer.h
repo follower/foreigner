@@ -64,6 +64,7 @@ public:
     /*static*/ uint64_t offset(uint64_t original_ptr, int32_t byte_offset);
     /*static*/ uint64_t deref(uint64_t original_ptr);
     /*static*/ void memcpy(uint64_t original_ptr, PoolByteArray pba);
+    /*static*/ String string_at(uint64_t original_ptr, int32_t buffer_size); // Name matches ctypes (behaviour doesn't quite yet, no "-1" size support).
 
     void _process(float delta);
 };
