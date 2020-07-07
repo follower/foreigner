@@ -12,6 +12,7 @@ void ForeignBuffer::_register_methods() {
     //       to this buffer. (See note in `foreignbuffer.h` for details.)
     register_method("offset", &ForeignBuffer::offset);
     register_method("deref", &ForeignBuffer::deref);
+    register_method("memcpy", &ForeignBuffer::memcpy);
 }
 
 ForeignBuffer::ForeignBuffer() {
@@ -140,4 +141,12 @@ uint64_t ForeignBuffer::offset(uint64_t original_ptr, int32_t byte_offset) {
 
 uint64_t ForeignBuffer::deref(uint64_t original_ptr) {
     return *((uint64_t *)original_ptr);
+}
+
+
+void ForeignBuffer::memcpy(uint64_t original_ptr, PoolByteArray pba) {
+    // TODO: Improve implementation & make more robust?
+    // NOTE: We don't (and can't) check that the amount of data copied
+    //       is valid so crashes/buffer overflows may occur.
+    std::memcpy((uint8_t *) original_ptr, pba.read().ptr(), pba.size() /* *cough* */);
 }

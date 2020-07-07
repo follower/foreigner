@@ -63,6 +63,7 @@ public:
 
     /*static*/ uint64_t offset(uint64_t original_ptr, int32_t byte_offset);
     /*static*/ uint64_t deref(uint64_t original_ptr);
+    /*static*/ void memcpy(uint64_t original_ptr, PoolByteArray pba);
 
     void _process(float delta);
 };
