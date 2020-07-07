@@ -178,6 +178,19 @@ func _init():
     ASSERT(result == 'FooTwo')
 
 
+    var spb4: StreamPeerBuffer = StreamPeerBuffer.new()
+    spb4.seek(0)
+    spb4.put_u64(my_buffer.ptr()) # TODO: Handle 32-bit pointer size?
+
+    var my_buffer4 = foreigner.new_buffer(spb4.get_size())
+    my_buffer4.set_data_with_offset(spb4.data_array, 0)
+
+    #prints("my_buffer4:", my_buffer4.hex_encode_buffer()) # Commented out for 3.1 compatibility.
+    prints("Should be equal:", "0x%08x" % my_buffer.ptr(), "0x%08x" % _op.deref(my_buffer4.ptr()))
+
+    ASSERT(my_buffer.ptr() == _op.deref(my_buffer4.ptr()))
+
+
     # One last manual check...
     print("my_buffer: ", my_buffer.hex_encode_buffer())
 
