@@ -80,3 +80,46 @@ void ForeignBuffer::set_data_with_offset(Array array_pba, int32_t byte_offset) {
 uint64_t ForeignBuffer::ptr() { // TODO: Handle in a different way?
   return (uint64_t) this->data;
 }
+
+
+// NOTE: The following methods manipulate raw pointers so things can
+//       break when they are used! (i.e. segfaults & the like.)
+//
+//       The current naming/implementation is not necessarily ideal
+//       but it's what I've got working currently, so that's what
+//       we're starting with. It's possible either aspect may change.
+//
+//       Ideally most buffer/struct usage wouldn't actually use these
+//       methods directly but would use some higher level abstraction
+//       with more safety/checking. That's what I'm aiming for, at
+//       least.
+//
+//       I have already developed a higher-level abstraction for
+//       `struct` access/usage which is built on these methods which
+//       will eventually be added to the library. Although, again its
+//       API/implementation should be considered in a state of flux.
+//
+//       In terms of the API approach used, I've looked primarily to
+//       Python `ctypes` for inspiration which seems to have 2-3
+//       layers of abstraction for similar functionality:
+//
+//        * "Safe" operation with fully ctypes controlled pointers
+//          e.g. Python objects created by ctypes itself.
+//
+//        * Semi-safe manipulation with "raw" pointers when additional
+//          type information is supplied.
+//
+//        * Raw pointer manipulation when you're entirely on your own.
+//          (This is pretty much where Foreigner is currently at.)
+//
+//       In many cases there will always be the need for raw pointer
+//       manipulation but with the help of additional tooling
+//       (for parsing header files, generating wrapper classes etc)
+//       the hope is that at least some safety can be provided. :)
+//
+//       Currently I have some library/project specific tooling used
+//       to parse header files to an intermediate JSON form & then
+//       generate GDScript-based wrapper classes. My hope is to
+//       eventually make this more generic and include it with
+//       Foreigner.
+//
