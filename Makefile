@@ -162,7 +162,7 @@ FFI_INCLUDES = $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --cflags libffi)
 FFI_LIB_LINK ?= $(shell $(PKG_CONFIG_ENV_VARS) pkg-config --libs libffi)
 
 INCLUDES= \
-		  -I$(GODOTCPP_PATH)/godot_headers \
+		  -I$(GODOTCPP_PATH)/godot-headers \
 		  -I$(GODOTCPP_PATH)/include \
 		  -I$(GODOTCPP_PATH)/include/core \
 		  -I$(GODOTCPP_PATH)/include/gen \
