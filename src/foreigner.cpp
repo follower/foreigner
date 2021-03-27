@@ -13,7 +13,9 @@ Foreigner::Foreigner() {
 
 
 Foreigner::~Foreigner() {
+#ifdef LOG_VERBOSE_EXTRA
     Godot::print("Destroying Foreigner");
+#endif
 }
 
 void Foreigner::_init() {
@@ -44,7 +46,9 @@ Ref<ForeignLibrary> Foreigner::open(String path) {
     //}
 
     // Attempt to open shared library
+#ifndef LOG_QUIET
     Godot::print("Foreigner: Loading shared library " + path);
+#endif
     // TODO: Windows/Linux/Mac
     HANDLE handle = open_library(path.alloc_c_string());
 

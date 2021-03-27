@@ -48,7 +48,9 @@ ForeignLibrary::ForeignLibrary() {
 }
 
 ForeignLibrary::~ForeignLibrary() {
+#ifdef LOG_VERBOSE_EXTRA
     Godot::print("Destroying ForeignLibrary");
+#endif
     for (signature_map_t::iterator it = signature_map.begin(); it != signature_map.end(); it++) {
         signature_t *signature = it->second;
         delete signature->cif;
@@ -100,7 +102,9 @@ void ForeignLibrary::define(String method, String retType, Array argTypes) {
     signature->cif = cif;
     this->signature_map[method.hash()] = signature;
 
+#ifdef LOG_VERBOSE_EXTRA
     Godot::print("Defined function " + method + "(" + argString + ") -> " + retType);
+#endif
 }
 
 String variant_to_string(String a) { return a; }

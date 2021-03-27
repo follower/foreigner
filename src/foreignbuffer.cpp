@@ -20,7 +20,9 @@ ForeignBuffer::ForeignBuffer() {
 }
 
 ForeignBuffer::~ForeignBuffer() {
+#ifdef LOG_VERBOSE_EXTRA
     Godot::print("Destroying ForeignBuffer");
+#endif
 }
 
 //void ForeignBuffer::_notification(int64_t what) {

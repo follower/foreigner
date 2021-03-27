@@ -1,6 +1,16 @@
 #ifndef FOREIGNER_CFG__H
 #define FOREIGNER_CFG__H
 
+
+//// Configure logging output
+
+// TODO: Control this at runtime via environment variables instead.
+
+//#define LOG_VERBOSE_EXTRA 1
+//#define LOG_QUIET 1
+
+
+
 // If enabled this will probably lead to crashes
 // when Foreigner is compiled against earlier `godot-cpp`
 // versions (e.g. 3.1 a.k.a e4ad265339f17042a86227bfb44f9d5d7dee5ba4).
