@@ -10,6 +10,7 @@
 //#define LOG_QUIET 1
 
 
+//// Configure target `godot-cpp` commit
 
 // If enabled this will probably lead to crashes
 // when Foreigner is compiled against earlier `godot-cpp`
@@ -19,6 +20,6 @@
 // work arounds based on `__internal_constructor()` will
 // now result in an incorrect refcount that will mean
 // instances will be freed too early.
-#define TARGET_GODOT_CPP_3_2_LATEST // 9eceb16f0553884094d0f659461649be5d333866
+#define TARGET_GODOT_CPP_3_2_LATEST // (Now: 77d41fa179e40560f1e264ed483638bf51713779 Was: 9eceb16f0553884094d0f659461649be5d333866)
 
 #endif
